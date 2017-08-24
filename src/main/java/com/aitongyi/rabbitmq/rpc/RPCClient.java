@@ -25,7 +25,7 @@ public class RPCClient {
 
 	public RPCClient() throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setUri("amqp://weixin:weixin@172.18.20.143:5672");
 		connection = factory.newConnection();
 		channel = connection.createChannel();
 

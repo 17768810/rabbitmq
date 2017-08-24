@@ -17,7 +17,7 @@ public class ReceiveLogs2 {
 
 	public static void main(String[] argv) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setUri("amqp://weixin:weixin@172.18.20.143:5672");
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 
@@ -29,7 +29,8 @@ public class ReceiveLogs2 {
 
 		Consumer consumer = new DefaultConsumer(channel) {
 			@Override
-			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+					byte[] body) throws IOException {
 				String message = new String(body, "UTF-8");
 				System.out.println(" [x] Received '" + message + "'");
 			}

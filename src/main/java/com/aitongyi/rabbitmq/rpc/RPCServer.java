@@ -31,7 +31,7 @@ public class RPCServer {
 		Channel channel = null;
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
-			factory.setHost("localhost");
+			factory.setUri("amqp://weixin:weixin@172.18.20.143:5672");
 
 			connection = factory.newConnection();
 			channel = connection.createChannel();
@@ -51,7 +51,8 @@ public class RPCServer {
 				QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 
 				BasicProperties props = delivery.getProperties();
-				BasicProperties replyProps = new BasicProperties.Builder().correlationId(props.getCorrelationId()).build();
+				BasicProperties replyProps = new BasicProperties.Builder().correlationId(props.getCorrelationId())
+						.build();
 
 				try {
 					String message = new String(delivery.getBody(), "UTF-8");

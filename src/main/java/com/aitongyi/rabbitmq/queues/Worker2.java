@@ -12,7 +12,7 @@ public class Worker2 {
 
 	public static void main(String[] argv) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setUri("amqp://weixin:weixin@172.18.20.143:5672");
 		final Connection connection = factory.newConnection();
 		final Channel channel = connection.createChannel();
 
@@ -23,7 +23,8 @@ public class Worker2 {
 
 		final Consumer consumer = new DefaultConsumer(channel) {
 			@Override
-			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+					byte[] body) throws IOException {
 				String message = new String(body, "UTF-8");
 
 				System.out.println("Worker2 [x] Received '" + message + "'");

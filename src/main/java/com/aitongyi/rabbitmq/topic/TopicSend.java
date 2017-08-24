@@ -21,28 +21,23 @@ public class TopicSend {
 		Channel channel = null;
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
-			factory.setHost("localhost");
+			factory.setUri("amqp://weixin:weixin@172.18.20.143:5672");
 
 			connection = factory.newConnection();
 			channel = connection.createChannel();
-//			声明一个匹配模式的交换器
+			// 声明一个匹配模式的交换器
 			channel.exchangeDeclare(EXCHANGE_NAME, "topic");
 
 			// 待发送的消息
-			String[] routingKeys = new String[]{"quick.orange.rabbit", 
-												"lazy.orange.elephant", 
-												"quick.orange.fox", 
-												"lazy.brown.fox", 
-												"quick.brown.fox", 
-												"quick.orange.male.rabbit", 
-												"lazy.orange.male.rabbit"};
-//			发送消息
-	        for(String severity :routingKeys){
-	        	String message = "From "+severity+" routingKey' s message!";
-	        	channel.basicPublish(EXCHANGE_NAME, severity, null, message.getBytes());
-	        	System.out.println("TopicSend [x] Sent '" + severity + "':'" + message + "'");
-	        }
-			
+			String[] routingKeys = new String[] { "quick.orange.rabbit", "lazy.orange.elephant", "quick.orange.fox",
+					"lazy.brown.fox", "quick.brown.fox", "quick.orange.male.rabbit", "lazy.orange.male.rabbit" };
+			// 发送消息
+			for (String severity : routingKeys) {
+				String message = "From " + severity + " routingKey' s message!";
+				channel.basicPublish(EXCHANGE_NAME, severity, null, message.getBytes());
+				System.out.println("TopicSend [x] Sent '" + severity + "':'" + message + "'");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
